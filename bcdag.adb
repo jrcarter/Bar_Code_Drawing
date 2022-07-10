@@ -86,7 +86,7 @@ begin -- BCDAG
                                              Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
                         I128.Reset;
                         Code_128.Draw (Info => I128, Text => Line (1 .. Last) );
-                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => I128, ID => C128);
+                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => I128, ID => C128, Line => True);
                      end if;
                   end if;
                end Get_Line;
@@ -105,7 +105,7 @@ begin -- BCDAG
                   IQR.Reset;
                   IQR.Set_Scale (Scale => IQR.Width / Code_QR.Width (Line) );
                   Code_QR.Draw (Info => IQR, Text => Line);
-                  Bar_Code_Drawing.How.Ada_GUI.Render (Info => IQR, ID => CQR);
+                  Bar_Code_Drawing.How.Ada_GUI.Render (Info => IQR, ID => CQR, Line => False);
                end Get_Text;
             elsif Event.Event.ID = Gen3 then -- MSI
                Get_MSI : declare
@@ -132,7 +132,7 @@ begin -- BCDAG
                                              Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
                         IMSI.Reset;
                         Code_MSI.Draw (Info => IMSI, Text => Line (1 .. Last) );
-                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => IMSI, ID => CMSI);
+                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => IMSI, ID => CMSI, Line => True);
                      end if;
                   end if;
                end Get_MSI;
