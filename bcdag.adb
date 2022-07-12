@@ -93,8 +93,6 @@ begin -- BCDAG
             elsif Event.Event.ID = Gen2 then -- QR
                Get_Text : declare
                   Line : constant String := Text.Text;
-
-                  Last : Natural := Line'Last;
                begin -- Get_Text
                   CQR.Draw_Rectangle (From_X     => 0,
                                       From_Y     => 0,
@@ -106,6 +104,9 @@ begin -- BCDAG
                   IQR.Set_Scale (Scale => IQR.Width / Code_QR.Width (Line) );
                   Code_QR.Draw (Info => IQR, Text => Line);
                   Bar_Code_Drawing.How.Ada_GUI.Render (Info => IQR, ID => CQR, Line => False);
+               exception -- Get_Text
+               when others =>
+                  Text.Set_Text (Text => "Text too long");
                end Get_Text;
             elsif Event.Event.ID = Gen3 then -- MSI
                Get_MSI : declare

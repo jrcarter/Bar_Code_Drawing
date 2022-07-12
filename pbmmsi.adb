@@ -10,9 +10,7 @@ with Bar_Code_Drawing.How.PBM;
 with Bar_Code_Drawing.What.MSI_Code;
 
 procedure PBMMSI is
-   package CMSI renames Bar_Code_Drawing.What.MSI_Code;
-
-   Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (638, 100, 2);
+   -- Empty
 begin -- PBMMSI
    if Ada.Command_Line.Argument_Count < 1 then
       Ada.Text_IO.Put_Line (Item => "Usage: pbmmsi <digits to encode>");
@@ -22,17 +20,15 @@ begin -- PBMMSI
    end if;
 
    Get_Text : declare
-      Text : constant String := Ada.Command_Line.Argument (1);
+      package CMSI renames Bar_Code_Drawing.What.MSI_Code;
 
-      Last : Natural := Text'Last;
+      Text  : constant String   := Ada.Command_Line.Argument (1);
+      Width : constant Natural  := CMSI.Width (Text);
+      Scale : constant Positive := (if Width < 500 then 2 else 1);
+
+      Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (Scale * Width, 100, Scale);
    begin -- Get_Text
-      Truncate : loop
-         exit Truncate when Info.Scale * CMSI.Width (Text (1 .. Last) ) <= Info.Width;
-
-         Last := Last - 1;
-      end loop Truncate;
-
-      CMSI.Draw (Info => Info, Text => Text (1 .. Last) );
+      CMSI.Draw (Info => Info, Text => Text);
       Ada.Text_IO.Put (Item => Bar_Code_Drawing.How.PBM.Image (Info) );
    end Get_Text;
 end PBMMSI;
