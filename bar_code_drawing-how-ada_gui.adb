@@ -5,13 +5,13 @@
 -- Released under the terms of the 3-Clause BSD License. See https://opensource.org/licenses/BSD-3-Clause
 
 package body Bar_Code_Drawing.How.Ada_GUI is
-   procedure Render (Info : in Drawing_Info; ID : in GUI.Widget_ID; Line : in Boolean) is
+   procedure Render (Info : in Drawing_Info; ID : in GUI.Widget_ID) is
       X     : Natural := Info.Bitmap'First (1);
       Y     : Natural;
       Start : Natural := Info.Bitmap'First (1);
       Stop  : Natural;
    begin -- Render
-      if not Line then -- 2D code
+      if Info.Dim = 2 then -- 2D code
          Draw_X : loop
             exit Draw_X when X not in Info.Bitmap'Range (1);
 
@@ -51,7 +51,7 @@ package body Bar_Code_Drawing.How.Ada_GUI is
             Find_Edge : loop
                exit Find_Edge when Stop + 1 not in Info.Bitmap'Range (1) or else not Info.Bitmap (Stop + 1, 0);
 
-               Stop := Stop + Info.Scale - 1;
+               Stop := Stop + Info.Scale;
             end loop Find_Edge;
 
             ID.Draw_Rectangle (From_X     => Start,

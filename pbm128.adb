@@ -26,7 +26,7 @@ begin -- PBM128
       Width : constant Natural  := C128.Width (Text);
       Scale : constant Positive := (if Width < 500 then 2 else 1);
 
-      Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (Scale * Width, 100, Scale);
+      Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (Scale * Width, 100, 1, Scale);
    begin -- Get_Text
       C128.Draw (Info => Info, Text => Text);
       Ada.Text_IO.Put (Item => Bar_Code_Drawing.How.PBM.Image (Info) );

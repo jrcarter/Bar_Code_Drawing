@@ -7,7 +7,7 @@
 package Bar_Code_Drawing.What is
    -- The What hierarchy of packages knows what modules to draw to draw bar codes of various types: Code 128, QR Code, ...
 
-   -- The parallel How hierarchy of packages knows how to process the resulting Bitmap for various output formats:
+   -- The parallel How hierarchy of packages knows how to process the resulting Drawing_Info for various output formats:
    -- Ada-GUI, PDF, PBM, ...
 
    subtype ASCII is Character range Character'Val (0) .. Character'Val (127);

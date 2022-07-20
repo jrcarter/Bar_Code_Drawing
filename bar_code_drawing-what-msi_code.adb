@@ -30,10 +30,10 @@ package body Bar_Code_Drawing.What.MSI_Code is
       procedure Draw_Bit (Info : in out Drawing_Info; X : in out Natural; Bit : in Character) is
          -- Empty
       begin -- Draw_Bit
-         Draw_Module (Info => Info, X => X, Y => 0, Line => True); -- All start with bar
+         Draw_Module (Info => Info, X => X, Y => 0); -- All start with bar
 
          if Bit = '1' then
-            Draw_Module (Info => Info, X => X + 1, Y => 0, Line => True); -- 1 bits have double bar
+            Draw_Module (Info => Info, X => X + 1, Y => 0); -- 1 bits have double bar
          end if;
 
          X := X + 3;

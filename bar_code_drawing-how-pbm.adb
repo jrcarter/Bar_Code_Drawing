@@ -14,14 +14,27 @@ package body Bar_Code_Drawing.How.PBM is
       LF : constant Character := Ada.Characters.Latin_1.LF;
 
       Result : Unbounded_String := To_Unbounded_String ("P1" & LF & Info.Width'Image & Info.Height'Image & LF);
+      Line   : Unbounded_String;
    begin -- Image
-      All_Y : for Y in reverse Info.Bitmap'Range (2) loop
-         All_X : for X in Info.Bitmap'Range (1) loop
-            Append (Source => Result, New_Item => Boolean'Pos (Info.Bitmap (X, Y) )'Image);
-         end loop All_X;
+      if Info.Dim = 1 then -- 1D code
+         Make_Line : for X in Info.Bitmap'Range (1) loop
+            Append (Source => Line, New_Item => Boolean'Pos (Info.Bitmap (X, 0) )'Image);
+         end loop Make_Line;
 
-         Append (Source => Result, New_Item => LF);
-      end loop All_Y;
+         Append (Source => Line, New_Item => LF);
+
+         All_Lines : for Y in 1 .. Info.Height loop
+            Append (Source => Result, New_Item => Line);
+         end loop All_Lines;
+      else -- 2D code
+         All_Y : for Y in reverse Info.Bitmap'Range (2) loop
+            All_X : for X in Info.Bitmap'Range (1) loop
+               Append (Source => Result, New_Item => Boolean'Pos (Info.Bitmap (X, Y) )'Image);
+            end loop All_X;
+
+            Append (Source => Result, New_Item => LF);
+         end loop All_Y;
+      end if;
 
       return To_String (Result);
    end Image;

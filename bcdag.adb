@@ -29,9 +29,9 @@ procedure BCDAG is
    CMSI  : Ada_GUI.Widget_ID;
    Digit : Ada_GUI.Widget_ID;
    Gen3  : Ada_GUI.Widget_ID;
-   I128  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (1016, 100, 2);
-   IQR   : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (250, 250);
-   IMSI  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (630, 100, 2);
+   I128  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (1016, 100, 1, 2);
+   IQR   : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (250, 250, 2);
+   IMSI  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (630, 100, 1, 2);
    Event : Ada_GUI.Next_Result_Info;
 
    use type Ada_GUI.Event_Kind_ID;
@@ -86,7 +86,7 @@ begin -- BCDAG
                                              Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
                         I128.Reset;
                         Code_128.Draw (Info => I128, Text => Line (1 .. Last) );
-                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => I128, ID => C128, Line => True);
+                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => I128, ID => C128);
                      end if;
                   end if;
                end Get_Line;
@@ -103,7 +103,7 @@ begin -- BCDAG
                   IQR.Reset;
                   IQR.Set_Scale (Scale => IQR.Width / Code_QR.Width (Line) );
                   Code_QR.Draw (Info => IQR, Text => Line);
-                  Bar_Code_Drawing.How.Ada_GUI.Render (Info => IQR, ID => CQR, Line => False);
+                  Bar_Code_Drawing.How.Ada_GUI.Render (Info => IQR, ID => CQR);
                exception -- Get_Text
                when others =>
                   Text.Set_Text (Text => "Text too long");
@@ -133,7 +133,7 @@ begin -- BCDAG
                                              Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
                         IMSI.Reset;
                         Code_MSI.Draw (Info => IMSI, Text => Line (1 .. Last) );
-                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => IMSI, ID => CMSI, Line => True);
+                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => IMSI, ID => CMSI);
                      end if;
                   end if;
                end Get_MSI;

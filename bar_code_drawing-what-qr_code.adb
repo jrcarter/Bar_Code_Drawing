@@ -745,7 +745,7 @@ package body Bar_Code_Drawing.What.QR_Code is
          for Y in Module_Range loop
             for X in Module_Range loop
                if Modules (Y, X) then
-                  Draw_Module (Info => Info, X => X, Y => Border_Size - 1 - Y, Line => False);
+                  Draw_Module (Info => Info, X => X, Y => Border_Size - 1 - Y);
                end if;
             end loop;
          end loop;

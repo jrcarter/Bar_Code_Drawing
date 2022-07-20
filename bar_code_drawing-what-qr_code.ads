@@ -11,6 +11,7 @@ package Bar_Code_Drawing.What.QR_Code is
    function Width (Text : in String; Level : in Error_Correction_Level := Medium) return Natural;
    -- Returns the width in modules to represent Text
 
-   procedure Draw (Info : in out Drawing_Info; Text : in String; Level : in Error_Correction_Level := Medium);
+   procedure Draw (Info : in out Drawing_Info; Text : in String; Level : in Error_Correction_Level := Medium) with
+      Pre => Info.Dimensions = 2;
    -- Draws a QR code representing Text
 end Bar_Code_Drawing.What.QR_Code;

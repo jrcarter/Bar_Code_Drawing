@@ -297,7 +297,7 @@ package body Bar_Code_Drawing.What.Code_128 is
          -- Empty
       begin
          All_Bars : for I in 0 .. Width - 1 loop
-            Draw_Module (Info => Info, X => X + Offset + I, Y => 0, Line => True);
+            Draw_Module (Info => Info, X => X + Offset + I, Y => 0);
          end loop All_Bars;
       end Bar;
    begin -- Draw

@@ -11,6 +11,6 @@ package Bar_Code_Drawing.What.Code_128 is
    -- Returns the width in modules to represent Text
 
    procedure Draw (Info : in out Drawing_Info; Text : in String) with
-      Pre => (for all C of Text => C in ASCii);
+      Pre => Info.Dimensions = 1 and (for all C of Text => C in ASCii);
    -- Draws a Code-128 bar code representing Text
 end Bar_Code_Drawing.What.Code_128;
