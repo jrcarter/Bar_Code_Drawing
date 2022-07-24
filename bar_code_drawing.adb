@@ -26,14 +26,12 @@
 --   THE SOFTWARE.
 
 package body Bar_Code_Drawing is
-   function New_Info (Width : in Positive; Height : in Positive; Dimensions : in Dimension_Number; Scale : in Positive := 1)
-   return Drawing_Info is
+   function New_Info (Width : in Positive; Height : in Positive; Dimensions : in Dimension_Number) return Drawing_Info is
       Result : Drawing_Info (Last_X => Width - 1, Last_Y => (if Dimensions = 1 then 0 else Height - 1) );
    begin -- New_Info
       Result.Width  := Width;
       Result.Height := Height;
       Result.Dim    := Dimensions;
-      Result.Scale  := Scale;
       Result.Bitmap := (others => (others => False) );
 
       return Result;
@@ -45,21 +43,9 @@ package body Bar_Code_Drawing is
       Info.Bitmap := (others => (others => False) );
    end Reset;
 
-   procedure Set_Scale (Info : in out Drawing_Info; Scale : in Positive) is
-      -- Empty
-   begin -- Set_Scale
-      Info.Scale := Scale;
-   end Set_Scale;
-
    procedure Draw_Module (Info : in out Drawing_Info; X : in Natural; Y : in Natural) is
       -- Empty
    begin -- Draw_Module
-      All_X : for Xx in Info.Scale * X .. Info.Scale * X + Info.Scale - 1 loop
-         All_Y : for Yy in
-            (if Info.Dim = 1 then 0 else Info.Scale * Y) .. (if Info.Dim = 1 then 0 else Info.Scale * Y + Info.Scale - 1)
-         loop
-            Info.Bitmap (Xx, Yy) := True;
-         end loop All_Y;
-      end loop All_X;
+      Info.Bitmap (X, Y) := True;
    end Draw_Module;
 end Bar_Code_Drawing;

@@ -26,10 +26,10 @@ begin -- PBMQR
       Width : constant Natural  := CQR.Width (Text);
       Scale : constant Positive := Integer'Max (250 / Width, 2);
 
-      Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (Scale * Width, Scale * Width, 2, Scale);
+      Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (Width, Width, 2);
    begin -- Get_Text
       CQR.Draw (Info => Info, Text => Text);
-      Ada.Text_IO.Put (Item => Bar_Code_Drawing.How.PBM.Image (Info) );
+      Ada.Text_IO.Put (Item => Bar_Code_Drawing.How.PBM.Image (Info, Scale) );
    exception -- Get_Text
    when others =>
       Ada.Text_IO.Put_Line (Item => "Text too long");

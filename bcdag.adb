@@ -29,9 +29,9 @@ procedure BCDAG is
    CMSI  : Ada_GUI.Widget_ID;
    Digit : Ada_GUI.Widget_ID;
    Gen3  : Ada_GUI.Widget_ID;
-   I128  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (1016, 100, 1, 2);
-   IQR   : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (250, 250, 2);
-   IMSI  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (630, 100, 1, 2);
+   I128  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (1016, 100, 1);
+   IQR   : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info ( 250, 250, 2);
+   IMSI  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info ( 630, 100, 1);
    Event : Ada_GUI.Next_Result_Info;
 
    use type Ada_GUI.Event_Kind_ID;
@@ -71,7 +71,7 @@ begin -- BCDAG
                      ASC.Set_Text (Text => "ASCII only!");
                   else
                      Shorten : loop
-                        exit Shorten when I128.Scale * Code_128.Width (Line (1 .. Last) ) <= I128.Width;
+                        exit Shorten when 2 * Code_128.Width (Line (1 .. Last) ) <= I128.Width;
 
                         Last := Last - 1;
                      end loop Shorten;
@@ -86,7 +86,7 @@ begin -- BCDAG
                                              Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
                         I128.Reset;
                         Code_128.Draw (Info => I128, Text => Line (1 .. Last) );
-                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => I128, ID => C128);
+                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => I128, ID => C128, Scale => 2);
                      end if;
                   end if;
                end Get_Line;
@@ -101,9 +101,8 @@ begin -- BCDAG
                                       Line_Color => (None => True),
                                       Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
                   IQR.Reset;
-                  IQR.Set_Scale (Scale => IQR.Width / Code_QR.Width (Line) );
                   Code_QR.Draw (Info => IQR, Text => Line);
-                  Bar_Code_Drawing.How.Ada_GUI.Render (Info => IQR, ID => CQR);
+                  Bar_Code_Drawing.How.Ada_GUI.Render (Info => IQR, ID => CQR, Scale => IQR.Width / Code_QR.Width (Line) );
                exception -- Get_Text
                when others =>
                   Text.Set_Text (Text => "Text too long");
@@ -118,7 +117,7 @@ begin -- BCDAG
                      Digit.Set_Text (Text => "Digits only!");
                   else
                      Truncate : loop
-                        exit Truncate when IMSI.Scale * Code_MSI.Width (Line (1 .. Last) ) <= IMSI.Width;
+                        exit Truncate when 2 * Code_MSI.Width (Line (1 .. Last) ) <= IMSI.Width;
 
                         Last := Last - 1;
                      end loop Truncate;
@@ -133,7 +132,7 @@ begin -- BCDAG
                                              Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
                         IMSI.Reset;
                         Code_MSI.Draw (Info => IMSI, Text => Line (1 .. Last) );
-                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => IMSI, ID => CMSI);
+                        Bar_Code_Drawing.How.Ada_GUI.Render (Info => IMSI, ID => CMSI, Scale => 2);
                      end if;
                   end if;
                end Get_MSI;

@@ -26,9 +26,9 @@ begin -- PBMMSI
       Width : constant Natural  := CMSI.Width (Text);
       Scale : constant Positive := (if Width < 500 then 2 else 1);
 
-      Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (Scale * Width, 100, 1, Scale);
+      Info : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (Width, 100, 1);
    begin -- Get_Text
       CMSI.Draw (Info => Info, Text => Text);
-      Ada.Text_IO.Put (Item => Bar_Code_Drawing.How.PBM.Image (Info) );
+      Ada.Text_IO.Put (Item => Bar_Code_Drawing.How.PBM.Image (Info, Scale) );
    end Get_Text;
 end PBMMSI;

@@ -5,34 +5,22 @@
 -- Released under the terms of the 3-Clause BSD License. See https://opensource.org/licenses/BSD-3-Clause
 
 package body Bar_Code_Drawing.How.Ada_GUI is
-   procedure Render (Info : in Drawing_Info; ID : in GUI.Widget_ID) is
-      X     : Natural := Info.Bitmap'First (1);
-      Y     : Natural;
+   procedure Render (Info : in Drawing_Info; ID : in GUI.Widget_ID; Scale : in Positive := 1) is
       Start : Natural := Info.Bitmap'First (1);
       Stop  : Natural;
    begin -- Render
       if Info.Dim = 2 then -- 2D code
-         Draw_X : loop
-            exit Draw_X when X not in Info.Bitmap'Range (1);
-
-            Y := Info.Bitmap'First (2);
-
-            Draw_Y : loop
-               exit Draw_Y when Y not in Info.Bitmap'Range (2);
-
+         Draw_X : for X in Info.Bitmap'Range (1) loop
+            Draw_Y : for Y in Info.Bitmap'Range (2) loop
                if Info.Bitmap (X, Y) then
-                  ID.Draw_Rectangle (From_X     => X,
-                                     From_Y     => Info.Last_Y - Y,
-                                     To_X       => X + Info.Scale - 1,
-                                     To_Y       => Info.Last_Y - Y - Info.Scale + 1,
+                  ID.Draw_Rectangle (From_X     => Scale * X,
+                                     From_Y     => Info.Last_Y - Scale * Y,
+                                     To_X       => Scale * X + Scale - 1,
+                                     To_Y       => Info.Last_Y - Scale * Y - Scale + 1,
                                      Line_Color => (None => True),
                                      Fill_Color => (None => False, Color => GUI.To_Color (GUI.Black) ) );
                end if;
-
-               Y := Y + Info.Scale;
             end loop Draw_Y;
-
-            X := X + Info.Scale;
          end loop Draw_X;
       else -- 1D code
          All_Bars : loop
@@ -41,22 +29,22 @@ package body Bar_Code_Drawing.How.Ada_GUI is
             Find_Bar : loop
                exit Find_Bar when Start not in Info.Bitmap'Range (1) or else Info.Bitmap (Start, 0);
 
-               Start := Start + Info.Scale;
+               Start := Start + 1;
             end loop Find_Bar;
 
             exit All_Bars when Start not in Info.Bitmap'Range (1);
 
-            Stop := Start + Info.Scale - 1;
+            Stop := Start + 1;
 
             Find_Edge : loop
-               exit Find_Edge when Stop + 1 not in Info.Bitmap'Range (1) or else not Info.Bitmap (Stop + 1, 0);
+               exit Find_Edge when Stop not in Info.Bitmap'Range (1) or else not Info.Bitmap (Stop, 0);
 
-               Stop := Stop + Info.Scale;
+               Stop := Stop + 1;
             end loop Find_Edge;
 
-            ID.Draw_Rectangle (From_X     => Start,
+            ID.Draw_Rectangle (From_X     => Scale * Start,
                                From_Y     => 0,
-                               To_X       => Stop,
+                               To_X       => Scale * Stop - 1,
                                To_Y       => Info.Height,
                                Line_Color => (None => True),
                                Fill_Color => (None => False, Color => GUI.To_Color (GUI.Black) ) );

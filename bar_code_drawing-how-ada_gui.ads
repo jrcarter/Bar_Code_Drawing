@@ -10,7 +10,8 @@ with Ada_GUI;
 package Bar_Code_Drawing.How.Ada_GUI is
    package GUI renames Standard.Ada_GUI;
 
-   procedure Render (Info : in Drawing_Info; ID : in GUI.Widget_ID) with
+   procedure Render (Info : in Drawing_Info; ID : in GUI.Widget_ID; Scale : in Positive := 1) with
       Pre => GUI.Set_Up and then ID.Kind in GUI.Graphic_Area;
    -- Draws the image in Info into ID
+   -- Modules will be Scale pixels wide
 end Bar_Code_Drawing.How.Ada_GUI;
