@@ -14,6 +14,8 @@ package body Bar_Code_Drawing.How.PBM is
       LF : constant Character := Ada.Characters.Latin_1.LF;
 
       Result : Unbounded_String := To_Unbounded_String ("P1" & LF &
+                                                        "# Created by " & Name & LF &
+                                                        "# " & URL & LF &
                                                         Integer'Image (Scale * Info.Width) &
                                                         Integer'Image ( (if Info.Dim = 1 then 1 else Scale) * Info.Height) & LF);
       Line   : Unbounded_String;

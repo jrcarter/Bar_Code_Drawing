@@ -70,4 +70,7 @@ private -- Bar_Code_Drawing
    function Height (Info : in Drawing_Info) return Positive is (Info.Height);
 
    function Dimensions (Info : in Drawing_Info) return Dimension_Number is (Info.Dim);
+
+   Name : constant String := "Bar_Code_Drawing";
+   URl  : constant String := "https://github.com/jrcarter/Bar_Code_Drawing";
 end Bar_Code_Drawing;
