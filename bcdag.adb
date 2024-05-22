@@ -9,11 +9,13 @@ with Bar_Code_Drawing.How.Ada_GUI;
 with Bar_Code_Drawing.What.Code_128;
 with Bar_Code_Drawing.What.QR_Code;
 with Bar_Code_Drawing.What.MSI_Code;
+with Bar_Code_Drawing.What.UPCA;
 
 procedure BCDAG is
    package Code_128 renames Bar_Code_Drawing.What.Code_128;
    package Code_QR  renames Bar_Code_Drawing.What.QR_Code;
    package Code_MSI renames Bar_Code_Drawing.What.MSI_Code;
+   package Code_UPC renames Bar_Code_Drawing.What.UPCA;
 
    H1    : Ada_GUI.Widget_ID;
    C128  : Ada_GUI.Widget_ID;
@@ -29,9 +31,15 @@ procedure BCDAG is
    CMSI  : Ada_GUI.Widget_ID;
    Digit : Ada_GUI.Widget_ID;
    Gen3  : Ada_GUI.Widget_ID;
+   Sep3  : Ada_GUI.Widget_ID;
+   H4    : Ada_GUI.Widget_ID;
+   CUPC  : Ada_GUI.Widget_ID;
+   N11   : Ada_GUI.Widget_ID;
+   Gen4  : Ada_GUI.Widget_ID;
    I128  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (1016, 100, 1);
    IQR   : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info ( 250, 250, 2);
    IMSI  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info ( 630, 100, 1);
+   IUPC  : Bar_Code_Drawing.Drawing_Info := Bar_Code_Drawing.New_Info (2 * Code_UPC.Width, 100, 1);
    Event : Ada_GUI.Next_Result_Info;
 
    use type Ada_GUI.Event_Kind_ID;
@@ -53,6 +61,12 @@ begin -- BCDAG
    Digit :=
       Ada_GUI.New_Text_Box (Break_Before => True, Label => "Digits to encode", Width => 25, Placeholder => "Digits to encode");
    Gen3 := Ada_GUI.New_Button (Text => "Generate", Break_Before => True);
+   Sep3 := Ada_GUI.New_Background_Text (Text => "<b>* * *</b>", Break_Before => True);
+   H4 := Ada_GUI.New_Background_Text (Text => "UPC code: 11 digits only", Break_Before => True);
+   CUPC := Ada_GUI.New_Graphic_Area (Width => IUPC.Width, Height => IUPC.Height, Break_Before => True);
+   N11 :=
+      Ada_GUI.New_Text_Box (Break_Before => True, Label => "11 digits to encode", Width => 11, Placeholder => "11 Digits");
+   Gen4 := Ada_GUI.New_Button (Text => "Generate", Break_Before => True);
 
    All_Events : loop
       Event := Ada_GUI.Next_Event;
@@ -136,6 +150,24 @@ begin -- BCDAG
                      end if;
                   end if;
                end Get_MSI;
+            elsif Event.Event.ID = Gen4 then
+               Get_UPC : declare
+                  Line : constant String := N11.Text;
+               begin -- Get_UPC
+                  if Line'Length /= 11 or (for Some C of Line => C not in Bar_Code_Drawing.What.Digit) then
+                     N11.Set_Text (Text => "11 digits!");
+                  else
+                     CUPC.Draw_Rectangle (From_X     => 0,
+                                          From_Y     => 0,
+                                          To_X       => IUPC.Width,
+                                          To_Y       => IUPC.Height,
+                                          Line_Color => (None => True),
+                                          Fill_Color => (None => False, Color => Ada_GUI.To_Color (Ada_GUI.White) ) );
+                     IUPC.Reset;
+                     Code_UPC.Draw (Info => IUPC, Text => Line);
+                     Bar_Code_Drawing.How.Ada_GUI.Render (Info => IUPC, ID => CUPC, Scale => 2);
+                  end if;
+               end Get_UPC;
             else
                null;
             end if;
