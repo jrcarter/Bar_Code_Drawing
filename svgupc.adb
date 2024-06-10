@@ -7,20 +7,20 @@
 with Ada.Command_Line;
 with Ada.Text_IO;
 with Bar_Code_Drawing.How.SVG;
-with Bar_Code_Drawing.What.UPCA;
+with Bar_Code_Drawing.What.UPCA_EAN13;
 
 procedure SVGUPC is
    -- Empty
 begin --SVGUPC
    if Ada.Command_Line.Argument_Count < 1 then
-      Ada.Text_IO.Put_Line (Item => "Usage: svgupc <11 digits>");
-      Ada.Text_IO.Put_Line (Item => "   Outputs a UPC-A bar code containing the argument to standard output");
+      Ada.Text_IO.Put_Line (Item => "Usage: svgupc <11-12 digits>");
+      Ada.Text_IO.Put_Line (Item => "   Outputs a UPC-A/EAN-13 bar code containing the argument to standard output");
 
       return;
    end if;
 
    Get_Text : declare
-      package CUPC renames Bar_Code_Drawing.What.UPCA;
+      package CUPC renames Bar_Code_Drawing.What.UPCA_EAN13;
 
       Text : constant String := Ada.Command_Line.Argument (1);
 
