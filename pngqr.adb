@@ -1,4 +1,4 @@
--- A program to test drawing bar codes in BMP format
+-- A program to test drawing bar codes in PNG format
 --
 -- Copyright (C) by PragmAda Software Engineering
 --
@@ -11,16 +11,16 @@ with Bar_Code_Drawing.What.QR_Code;
 with Image_IO.Holders;
 with Image_IO.Operations;
 
-procedure BMPQR is
+procedure PNGQR is
    package CQR renames Bar_Code_Drawing.What.QR_Code;
 
    Text_Arg : Positive := 1;
    ECL      : CQR.Error_Correction_Level := CQR.Medium;
-begin -- BMPQR
+begin -- PNGQR
    if Ada.Command_Line.Argument_Count < 2 then
-      Ada.Text_IO.Put_Line (Item => "Usage: bmpqr [-L | -M | -Q | -H] <text to encode> <file name>");
+      Ada.Text_IO.Put_Line (Item => "Usage: pngqr [-L | -M | -Q | -H] <text to encode> <file name>");
       Ada.Text_IO.Put_Line (Item => "   Switch indicates the Error Correction Level to use (default M)");
-      Ada.Text_IO.Put_Line (Item => "   Outputs a BMP QR code containing the text to a file with the given name");
+      Ada.Text_IO.Put_Line (Item => "   Outputs a PNG QR code containing the text to a file with the given name");
 
       return;
    end if;
@@ -53,9 +53,9 @@ begin -- BMPQR
    begin -- Get_Text
       CQR.Draw (Info => Info, Text => Text, Level => ECL);
       Bar_Code_Drawing.How.Image_IO.Draw (Info => Info, Image => Image, Scale => Scale);
-      Image_IO.Operations.Write_BMP (File_Name => Name, Image => Image.Value);
+      Image_IO.Operations.Write_PNG (File_Name => Name, Image => Image.Value, Grayscale => True);
    exception -- Get_Text
    when others =>
       Ada.Text_IO.Put_Line (Item => "Text too long");
    end Get_Text;
-end BMPQR;
+end PNGQR;
