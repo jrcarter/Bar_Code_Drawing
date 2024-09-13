@@ -52,7 +52,7 @@ package body Bar_Code_Drawing.What.UPCA_EAN13 is
                                            '7' => "0010001",
                                            '8' => "0001001",
                                            '9' => "0010111");
-      Set_C_Map : constant Pattern_Map := ('0' => "1110010", -- Bar patterns for alphabet B (right half)
+      Set_C_Map : constant Pattern_Map := ('0' => "1110010", -- Bar patterns for alphabet C (right half)
                                            '1' => "1100110",
                                            '2' => "1101100",
                                            '3' => "1000010",
