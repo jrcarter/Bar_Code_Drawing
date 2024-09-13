@@ -3,7 +3,7 @@ Creation of bar codes
 
 Bar_Code_Drawing is a library for creating bar codes, inspired by de Montmollin's [Ada Bar Codes](https://github.com/zertovitch/ada-bar-codes), but hopefully simpler and easier to use.
 
-Currently, Code 128, MSI, QR, and UPC-A/EAN-13 codes are implemented. An additional type of bar code may be implemented by adding a package to the Bar_Code_Drawing.What.* hierarchy with an appropriate Draw procedure.
+Currently, Code 128, Data Matrix, MSI, QR, and UPC-A/EAN-13 codes are implemented. An additional type of bar code may be implemented by adding a package to the Bar_Code_Drawing.What.* hierarchy with an appropriate Draw procedure.
 
 Currently, drawing to an [Ada-GUI](https://github.com/jrcarter/Ada_GUI) Graphic_Area, creating an Image_IO.Image_Data result, and creation of PBM and SVG files are implemented. An additional representation may be implemented by adding a package to the Bar_Code_Drawing.How.* hierarchy with an appropriate operation.
 
@@ -18,11 +18,13 @@ MSI codes (also called MSI Plessey or Modified Plessey) use a Luhn checksum digi
 SVG output makes use of [PragmARC.Images](https://github.com/jrcarter/PragmARC).
 
 Several demo programs are included:
-* BCDAG is an Ada-GUI program to demonstrate drawing the 4 type of barcodes with Ada GUI
+* BCDAG is an Ada-GUI program to demonstrate drawing Code 128, MSI, QR, and UPC-A/EAN-13 barcodes with Ada GUI
 * PNGQR writes a QR code to a PNG file
   - bmpqr [level] "Text to encode" qr_code.png
   - level represents the QR ECL level: -l (low); -m (medium, default); -q (quartile); -h (high)
 * BMPQR is similar for BMP output
+* PNGDM writes a Data Matrix code to a PNG file
+  - pngdm "Text to encode" dm_code.png
 * PBM128 outputs a Code-128 barcode to standard output in PBM format. Redirection to a file produces a PBM file:
   - pbm128 "Text to encode" > code_128.pbm
 * PBMMSI is similar for an MSI barcode
