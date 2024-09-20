@@ -1,4 +1,4 @@
--- A program to drawing Data Matrix codes in PNG format
+-- A program for drawing Data Matrix codes in PNG format
 --
 -- Copyright (C) by PragmAda Software Engineering
 --

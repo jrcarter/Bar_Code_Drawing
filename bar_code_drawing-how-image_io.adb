@@ -20,14 +20,10 @@ package body Bar_Code_Drawing.How.Image_IO is
       begin -- Convert
          if Info.Dim = 1 then -- 1D code
             One_Row : for C in Info.Bitmap'Range (1) loop
-               if not Info.Bitmap (C, 0) then
-                  X := X + Scale;
-               else
-                  Apply_Scale : for J in 1 .. Scale loop
-                     Result (0, X) := Black;
-                     X := X + 1;
-                  end loop Apply_Scale;
-               end if;
+               Apply_Scale : for J in 1 .. Scale loop
+                  Result (0, X) := (if Info.Bitmap (C, 0) then Black else White);
+                  X := X + 1;
+               end loop Apply_Scale;
             end loop One_Row;
 
             Copy_Rows : for R in 1 .. Result'Last (1) loop

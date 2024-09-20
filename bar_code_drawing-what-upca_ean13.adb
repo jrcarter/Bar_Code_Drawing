@@ -27,9 +27,9 @@ package body Bar_Code_Drawing.What.UPCA_EAN13 is
    end Checksum;
 
    procedure Draw (Info : in out Drawing_Info; Text : in String) is
-      S : constant String (1 .. Text'Length) := Text;
+      S : constant String (1 .. 12) := (if Text'Length = 11 then "0" else "") & Text; -- UPC-A is EAN-13 with initial 0
 
-      subtype Digit_Pattern is String (1 .. 7); -- Each digit takes 7 modules
+      subtype Digit_Pattern is String (1 .. 7); -- Each digit takes 7 modules; '0' => white, '1' => black
       type Pattern_Map is array (Digit) of Digit_Pattern;
 
       Set_A_Map : constant Pattern_Map := ('0' => "0001101", -- Bar patterns for alphabet A (left half)
@@ -65,7 +65,7 @@ package body Bar_Code_Drawing.What.UPCA_EAN13 is
       End_Guard    : constant String := "101";
       Middle_Guard : constant String := "01010";
 
-      type EAN_A_Pattern is array (1 .. 6) of Boolean; -- True if digit I should be drawn using Set A; False for Set B
+      type EAN_A_Pattern is array (2 .. 7) of Boolean; -- True if digit I should be drawn using Set A; False for Set B
       type EAN_Pattern_Map is array (Digit) of EAN_A_Pattern;
 
       EAN_A : constant EAN_Pattern_Map := ('0' => (True, True,  True,  True,  True,  True),
@@ -96,26 +96,18 @@ package body Bar_Code_Drawing.What.UPCA_EAN13 is
          end loop All_Lines;
       end Draw;
 
-      Offset : constant Natural := Text'Length - 11;
-      UPC    : constant Boolean := Text'Length = 11;
-
       X : Natural := 0;
    begin -- Draw
       Draw (Info => Info, X => X, Pattern => End_Guard);
 
-      Draw_Left : for I in 1 + Offset .. 6 + Offset loop
-         Draw (Info => Info, X => X, Pattern => (if UPC then
-                                                    Set_A_Map (S (I) )
-                                                 else
-                                                    (if EAN_A (S (1) ) (I - Offset) then
-                                                        Set_A_Map (S (I) )
-                                                     else
-                                                        Set_B_Map (S (I) ) ) ) );
+      Draw_Left : for I in 2 .. 7 loop -- S(1) is encoded by the pattern of Set-A and Set-B patterns in the left half
+         Draw (Info => Info, X => X, Pattern => (if EAN_A (S (1) ) (I) then Set_A_Map (S (I) )
+                                                 else Set_B_Map (S (I) ) ) );
       end loop Draw_Left;
 
       Draw (Info => Info, X => X, Pattern => Middle_Guard);
 
-      Draw_Right : for I in 7 + Offset .. 11 + Offset loop
+      Draw_Right : for I in 8 .. 12 loop
          Draw (Info => Info, X => X, Pattern => Set_C_Map (S (I) ) );
       end loop Draw_Right;
 

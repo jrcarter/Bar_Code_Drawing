@@ -7,7 +7,7 @@
 
 package Bar_Code_Drawing.What.UPCA_EAN13 is
    Width : constant := 95;
-   -- All UPC-A codes are 95 modules wide
+   -- All UPC-A/EAN-13 codes are 95 modules wide
 
    function Valid (Text : in String) return Boolean is
       (Text'Length in 11 .. 12 and (for all C of Text => C in Digit) ); -- 11 = UPC-A; 12 = EAN-13
