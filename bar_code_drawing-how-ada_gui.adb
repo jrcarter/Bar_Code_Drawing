@@ -14,9 +14,9 @@ package body Bar_Code_Drawing.How.Ada_GUI is
             Draw_Y : for Y in Info.Bitmap'Range (2) loop
                if Info.Bitmap (X, Y) then
                   ID.Draw_Rectangle (From_X     => Scale * X,
-                                     From_Y     => Info.Last_Y - Scale * Y,
+                                     From_Y     => ID.Height - Scale * Y -1,
                                      To_X       => Scale * X + Scale - 1,
-                                     To_Y       => Info.Last_Y - Scale * Y - Scale + 1,
+                                     To_Y       => ID.Height - Scale * Y - Scale,
                                      Line_Color => (None => True),
                                      Fill_Color => (None => False, Color => GUI.To_Color (GUI.Black) ) );
                end if;
@@ -45,7 +45,7 @@ package body Bar_Code_Drawing.How.Ada_GUI is
             ID.Draw_Rectangle (From_X     => Scale * Start,
                                From_Y     => 0,
                                To_X       => Scale * Stop - 1,
-                               To_Y       => Info.Height,
+                               To_Y       => Scale * (Info.Height - 1),
                                Line_Color => (None => True),
                                Fill_Color => (None => False, Color => GUI.To_Color (GUI.Black) ) );
             Start := Stop + 1;
