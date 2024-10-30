@@ -18,7 +18,7 @@ MSI codes (also called MSI Plessey or Modified Plessey) use a Luhn checksum digi
 SVG output makes use of [PragmARC.Images](https://github.com/jrcarter/PragmARC).
 
 Several demo programs are included:
-* BCDAG is an Ada-GUI program to demonstrate drawing Code 128, MSI, QR, and UPC-A/EAN-13 barcodes with Ada GUI
+* BCDAG is an Ada-GUI program to demonstrate drawing Code 128, Data Matrix, MSI, QR, and UPC-A/EAN-13 barcodes with Ada GUI
 * PNGQR writes a QR code to a PNG file
   - bmpqr [level] "Text to encode" qr_code.png
   - level represents the QR ECL level: -l (low); -m (medium, default); -q (quartile); -h (high)
